@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+</head>
+<body>
+<input type="button" onclick="closeSocket()" value="close">
+</body>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript">
+    var webSocket = getWebSocket();
+    function getWebSocket() {
+        var webSocket;
+        if (typeof(WebSocket) == undefined) {
+            console.log("您的浏览器不支持webSocket");
+        } else {
+            webSocket = new WebSocket("ws://localhost:8080/websocket/001");
+            // 打开连接
+            webSocket.onopen = function (event) {
+                console.log("webSocket打开连接");
+            }
+            // 接收消息
+            webSocket.onmessage = function (event) {
+                console.log("WebSocket收到消息：%c" + event.data, "color:green");
+            }
+            webSocket.onclose = function (ev) {
+                console.log('webSocket关闭了连接');
+            }
+        }
+        return webSocket;
+    }
+
+    // 关闭连接
+    function closeSocket() {
+        webSocket.close();
+    }
+
+</script>
+</html>
